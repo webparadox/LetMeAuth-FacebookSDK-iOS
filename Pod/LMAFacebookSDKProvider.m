@@ -73,9 +73,9 @@
 
         NSMutableDictionary *tokenResponse = [[NSMutableDictionary alloc] initWithCapacity:4];
 
-        [tokenResponse setValue:accessTokenData.accessToken forKey:@"access_token"];
-        [tokenResponse setValue:accessTokenData.permissions forKey:@"scope"];
-        [tokenResponse setValue:accessTokenData.expirationDate forKey:@"expires"];
+        [tokenResponse setValue:accessTokenData.accessToken forKey:LMAOAuth2AccessToken];
+        [tokenResponse setValue:accessTokenData.permissions forKey:LMAOAuth2Scope];
+        [tokenResponse setValue:accessTokenData.expirationDate forKey:LMAExpiresAt];
 
         [self didAuthenticateWithData:tokenResponse];
     }];

@@ -15,9 +15,9 @@
 /*
  Return
 
- @"access_token" => NSString. Access token
- @"scope" => NSArray of NSString. Permissions
- @"expires" => NSDate. Expiration date
+ LMAOAuth2AccessToken => NSString. Access token
+ LMAOAuth2Scope => NSArray of NSString. Permissions
+ LMAExpiresAt => NSDate. Expiration date
  */
 @interface LMAFacebookSDKProvider : NSObject <LMAProvider>
 
