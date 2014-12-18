@@ -11,15 +11,6 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 
-NSString *const LMAFacebookSDKAppId = @"LMAFacebookSDKAppId";
-NSString *const LMAFacebookSDKPermissions = @"LMAFacebookSDKPermissions";
-NSString *const LMAFacebookSDKURLSchemeSuffix = @"LMAFacebookSDKURLSchemeSuffix";
-NSString *const LMAFacebookSDKAudience = @"LMAFacebookSDKAudience";
-NSString *const LMAFacebookSDKAudienceOnlyMe = @"me";
-NSString *const LMAFacebookSDKAudienceFriends = @"friends";
-NSString *const LMAFacebookSDKAudienceEveryone = @"everyone";
-
-
 @interface LMAFacebookSDKProvider ()
 
 @property (copy, nonatomic) NSDictionary *configuration;

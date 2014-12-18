@@ -9,15 +9,8 @@
 
 #import <Foundation/Foundation.h>
 #import <LetMeAuth/LetMeAuth.h>
+#import "LMAFacebookSDKConstants.h"
 
-
-extern NSString *const LMAFacebookSDKAppId;
-extern NSString *const LMAFacebookSDKPermissions;
-extern NSString *const LMAFacebookSDKURLSchemeSuffix;
-extern NSString *const LMAFacebookSDKAudience;
-extern NSString *const LMAFacebookSDKAudienceOnlyMe;
-extern NSString *const LMAFacebookSDKAudienceFriends;
-extern NSString *const LMAFacebookSDKAudienceEveryone;
 
 /*
  Return
