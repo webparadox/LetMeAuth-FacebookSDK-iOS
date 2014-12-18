@@ -93,10 +93,19 @@
     return result;
 }
 
-- (void)handleDidBecomeActive
+- (BOOL)handleDidBecomeActive
 {
+    FBSessionState sessionStateBefore = self.session.state;
     [FBAppCall handleDidBecomeActiveWithSession:self.session];
-	[self didCancel];
+    FBSessionState sessionStateAfter = self.session.state;
+
+    BOOL sessionStateChanged = sessionStateAfter != sessionStateBefore;
+
+    if (sessionStateChanged) {
+        [self didCancel];
+    }
+
+    return sessionStateChanged;
 }
 
 #pragma mark Private methods
