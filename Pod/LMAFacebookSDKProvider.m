@@ -30,67 +30,67 @@
 
 - (id)initWithConfiguration:(NSDictionary *)configuration
 {
-	self = [super init];
-	if (!self) {
-		return nil;
-	}
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
 
-	self.configuration = configuration;
-	NSString *applicationId = [self.configuration objectForKey:LMAFacebookSDKAppId];
-	NSArray *permissions = [self.configuration objectForKey:LMAFacebookSDKPermissions];
-	NSString *urlSchemeSuffix = [self.configuration objectForKey:LMAFacebookSDKURLSchemeSuffix];
-	NSString *audience = [self.configuration objectForKey:LMAFacebookSDKAudience];
-	FBSessionDefaultAudience defaultAudience = FBSessionDefaultAudienceNone;
-	if ([audience isEqualToString:LMAFacebookSDKAudienceOnlyMe]) {
-		defaultAudience = FBSessionDefaultAudienceOnlyMe;
-	} else if ([audience isEqualToString:LMAFacebookSDKAudienceFriends]) {
-		defaultAudience = FBSessionDefaultAudienceFriends;
-	} else if ([audience isEqualToString:LMAFacebookSDKAudienceEveryone]) {
-		defaultAudience = FBSessionDefaultAudienceEveryone;
-	}
+    self.configuration = configuration;
+    NSString *applicationId = [self.configuration objectForKey:LMAFacebookSDKAppId];
+    NSArray *permissions = [self.configuration objectForKey:LMAFacebookSDKPermissions];
+    NSString *urlSchemeSuffix = [self.configuration objectForKey:LMAFacebookSDKURLSchemeSuffix];
+    NSString *audience = [self.configuration objectForKey:LMAFacebookSDKAudience];
+    FBSessionDefaultAudience defaultAudience = FBSessionDefaultAudienceNone;
+    if ([audience isEqualToString:LMAFacebookSDKAudienceOnlyMe]) {
+        defaultAudience = FBSessionDefaultAudienceOnlyMe;
+    } else if ([audience isEqualToString:LMAFacebookSDKAudienceFriends]) {
+        defaultAudience = FBSessionDefaultAudienceFriends;
+    } else if ([audience isEqualToString:LMAFacebookSDKAudienceEveryone]) {
+        defaultAudience = FBSessionDefaultAudienceEveryone;
+    }
 
-	self.session = [[FBSession alloc] initWithAppID:applicationId permissions:permissions defaultAudience:defaultAudience urlSchemeSuffix:urlSchemeSuffix tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance]];
+    self.session = [[FBSession alloc] initWithAppID:applicationId permissions:permissions defaultAudience:defaultAudience urlSchemeSuffix:urlSchemeSuffix tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance]];
 
-	return self;
+    return self;
 }
 
 - (void)start
 {
     __weak typeof(self)weakSelf = self;
-	[self.session openWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+    [self.session openWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
         __strong typeof(weakSelf)self = weakSelf;
 
-		if (error) {
-			[self didFailWithError:error];
-			return;
-		}
-		if (!FB_ISSESSIONOPENWITHSTATE(status)) {
-			// TODO: raise error
-			return;
-		}
-		
-		FBAccessTokenData *accessTokenData = session.accessTokenData;
+        if (error) {
+            [self didFailWithError:error];
+            return;
+        }
+        if (!FB_ISSESSIONOPENWITHSTATE(status)) {
+            // TODO: raise error
+            return;
+        }
 
-		NSMutableDictionary *tokenResponse = [[NSMutableDictionary alloc] initWithCapacity:4];
-		
-		[tokenResponse setValue:accessTokenData.accessToken forKey:@"access_token"];
-		[tokenResponse setValue:accessTokenData.permissions forKey:@"scope"];
-		[tokenResponse setValue:accessTokenData.expirationDate forKey:@"expires"];
+        FBAccessTokenData *accessTokenData = session.accessTokenData;
 
-		[self didAuthenticateWithData:tokenResponse];
-	}];
+        NSMutableDictionary *tokenResponse = [[NSMutableDictionary alloc] initWithCapacity:4];
+
+        [tokenResponse setValue:accessTokenData.accessToken forKey:@"access_token"];
+        [tokenResponse setValue:accessTokenData.permissions forKey:@"scope"];
+        [tokenResponse setValue:accessTokenData.expirationDate forKey:@"expires"];
+
+        [self didAuthenticateWithData:tokenResponse];
+    }];
 }
 
 - (void)cancel
 {
-	[self.session close];
-	[self didCancel];
+    [self.session close];
+    [self didCancel];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     BOOL result = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:self.session];
-	return result;
+    return result;
 }
 
 - (void)handleDidBecomeActive
